@@ -1,6 +1,7 @@
 ### Custom Template
 .idea
 manneia-generator.iml
+manneia-generator-basic.iml
 
 ### Maven template
 target/

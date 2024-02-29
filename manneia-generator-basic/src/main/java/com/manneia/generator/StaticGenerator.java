@@ -33,7 +33,6 @@ public class StaticGenerator {
      */
     private static void copyFilesByRecursive(File inputFile, File outputFile) throws IOException {
         if (inputFile.isDirectory()) {
-            System.out.println(inputFile.getName());
             File destOutputFile = new File(outputFile, inputFile.getName());
             if (!destOutputFile.exists()) {
                 destOutputFile.mkdirs();
@@ -60,22 +59,10 @@ public class StaticGenerator {
         File outputFile = new File(destPath);
         try {
             copyFilesByRecursive(inputFile, outputFile);
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("file copy failed");
             e.printStackTrace();
         }
 
-    }
-
-    public static void main(String[] args) {
-        // 根目录
-        String projectPath = System.getProperty("user.dir");
-        File parentFile = new File(projectPath).getParentFile();
-        // 源路径
-        String inputPath = new File(projectPath, "manneia-generator-demo-projects/acm-template").getPath();
-        System.out.println("projectPath: " + projectPath);
-        System.out.println("parentFile: " + parentFile);
-        System.out.println("inputPath" + inputPath);
-        copyFilesByHuTool(inputPath, projectPath);
     }
 }
