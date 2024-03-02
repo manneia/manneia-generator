@@ -2,11 +2,12 @@
 .idea
 manneia-generator.iml
 manneia-generator-basic.iml
+manneia-generator-basic/target
+manneia-generator-basic-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 ### Maven template
 target/
-pom.xml.tag
-pom.xml.releaseBackup
+pom.xml.tagpom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties

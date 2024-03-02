@@ -23,5 +23,5 @@ public class MainTemplateConfig {
     /**
      * 是否开启循环
      */
-    private boolean loop = false;
+    private Boolean loop = false;
 }
