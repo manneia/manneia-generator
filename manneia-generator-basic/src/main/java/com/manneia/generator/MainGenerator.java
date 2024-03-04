@@ -1,7 +1,6 @@
 package com.manneia.generator;
 
 import com.manneia.model.MainTemplateConfig;
-import com.manneia.utils.Utils;
 import freemarker.template.TemplateException;
 
 import java.io.File;

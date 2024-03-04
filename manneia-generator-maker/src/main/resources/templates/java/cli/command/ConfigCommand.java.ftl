@@ -1,7 +1,7 @@
-package ${basePackage}.maker.cli.command;
+package ${basePackage}.cli.command;
 
 import cn.hutool.core.util.ReflectUtil;
-import ${basePackage}.maker.model.DataModel;
+import ${basePackage}.model.DataModel;
 import picocli.CommandLine.Command;
 
 import java.lang.reflect.Field;
