@@ -1,21 +1,17 @@
-package com.manneia;
+package com.manneia.maker;
 
-import com.manneia.generator.MainGenerator;
-import com.manneia.model.MainTemplateConfig;
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
+//import com.manneia.maker.cli.CommandExecutor;
 
 /**
  * @author lkx
  */
 public class Main {
-    public static void main(String[] args) throws TemplateException, IOException {
+    public static void main(String[] args) {
         //        args = new String[] {"generator", "-l", "-a", "-o"};
         //        args = new String[]{"config"};
         //        args = new String[]{"list"};
 //        CommandExecutor commandExecutor = new CommandExecutor();
 //        commandExecutor.doExecute(args);
-        MainGenerator.doGenerator(new MainTemplateConfig());
+
     }
 }
