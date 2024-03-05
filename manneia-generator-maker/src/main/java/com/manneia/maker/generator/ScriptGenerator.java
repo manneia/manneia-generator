@@ -33,8 +33,9 @@ public class ScriptGenerator {
         // Windows 脚本
         stringBuilder = new StringBuilder();
         stringBuilder.append("@echo off").append("\n");
-        stringBuilder.append(String.format("java -jar %s %%*", jarPath)).append("\n");
+        stringBuilder.append(String.format("java -Dfile.encoding=utf-8 -jar %s %%*", jarPath)).append("\n");
         FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath
                 + ".bat");
     }
 }
+

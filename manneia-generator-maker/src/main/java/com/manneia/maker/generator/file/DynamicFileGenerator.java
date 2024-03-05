@@ -40,8 +40,7 @@ public class DynamicFileGenerator {
         }
         Template template = configuration.getTemplate(templateName, "utf-8");
         // 生成
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                Files.newOutputStream(Paths.get(outputPath)), StandardCharsets.UTF_8));
+        Writer out = new FileWriter(outputPath);
         template.process(model, out);
         out.close();
     }

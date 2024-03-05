@@ -4,6 +4,7 @@ manneia-generator.iml
 manneia-generator-basic.iml
 manneia-generator-basic/target
 manneia-generator-basic-1.0-SNAPSHOT-jar-with-dependencies.jar
+generated/
 
 ### Maven template
 target/

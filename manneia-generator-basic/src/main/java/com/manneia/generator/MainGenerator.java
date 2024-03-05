@@ -12,15 +12,13 @@ import java.io.IOException;
 public class MainGenerator {
 
     public static void doGenerator(MainTemplateConfig config) throws TemplateException, IOException {
-        String inputRootPath = "D:\\Project\\project\\manneia-generator" +
-                "\\manneia-generator-demo-projects" +
-                "\\acm-template-pro";
+        String inputRootPath = "D:\\Project\\project\\manneia-generator\\manneia-generator-demo-projects\\acm-template-pro";
         String outputRootPath = "D:\\Project\\project\\manneia-generator";
         String inputPath;
         String outputPath;
         inputPath = new File(inputRootPath, "src/com/manneia/acm/MainTemplate.java.ftl")
                 .getAbsolutePath();
-        outputPath = new File(outputRootPath, "src/com/manneia/acm/MainTemplate.java")
+        outputPath = new File(outputRootPath, "generated/acm-template-pro-generator/src/main/java/com/manneia/acm/MainTemplate.java")
                 .getAbsolutePath();
         DynamicGenerator.doGenerate(inputPath, outputPath, config);
         inputPath = new File(inputRootPath, ".gitignore").getAbsolutePath();

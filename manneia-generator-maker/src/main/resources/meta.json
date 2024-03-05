@@ -1,12 +1,13 @@
 {
   "name": "acm-template-pro-generator",
-  "description" : "ACM 示例模板生成器",
+  "description": "ACM 示例模板生成器",
   "basePackage": "com.manneia",
   "version": "1.0",
   "author": "manneia",
   "createTime": "2024-3-3",
   "fileConfig": {
-    "inputRootPath": "D:/Project/project/manneia-generator/manneia-generator-demo-projects/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
+    "sourceRootPath": "D:/Project/project/manneia-generator/manneia-generator-demo-projects/acm-template-pro",
     "outputRootPath": "generated",
     "type": "dir",
     "files": [
