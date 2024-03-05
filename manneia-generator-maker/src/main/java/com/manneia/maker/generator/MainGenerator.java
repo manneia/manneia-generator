@@ -121,5 +121,18 @@ public class MainGenerator {
                 meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+
+        // 生成精简版本的程序(产物包)
+        String distOutputPath = outputPath + "-dist";
+        // 拷贝jar包,
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // 拷贝脚本文件,
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
+        // 拷贝原始模板文件
+        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
     }
 }
