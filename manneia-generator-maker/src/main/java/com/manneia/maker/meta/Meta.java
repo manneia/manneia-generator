@@ -19,6 +19,7 @@ public class Meta {
     private String basePackage;
     private String version;
     private String author;
+    private Boolean isGit;
     private String createTime;
     private FileConfig fileConfig;
     private ModelConfig modelConfig;

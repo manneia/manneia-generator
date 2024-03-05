@@ -3,7 +3,9 @@ package com.manneia.maker.generator;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import com.manneia.maker.GitGenerator;
 import com.manneia.maker.generator.file.DynamicFileGenerator;
+import com.manneia.maker.generator.file.StaticFileGenerator;
 import com.manneia.maker.generator.utils.Utils;
 import com.manneia.maker.meta.Meta;
 import com.manneia.maker.meta.MetaManager;
@@ -111,6 +113,13 @@ public class MainGenerator {
         inputFilePath = resourceAbsolutePath + File.separator + "templates/README.md.ftl";
         outputFilePath = outputPath + File.separator + "README.md";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+        if (meta.getIsGit()) {
+            GitGenerator.doGenerate(outputPath);
+            inputFilePath = resourceAbsolutePath + File.separator + "templates/.gitignore.ftl";
+            outputFilePath = outputPath + File.separator + ".gitignore";
+            StaticFileGenerator.copyFilesByHuTool(inputFilePath, outputFilePath);
+        }
 
         // 构建jar包
         JarGenerator.doGenerate(outputPath);

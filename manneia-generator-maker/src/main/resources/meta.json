@@ -4,6 +4,7 @@
   "basePackage": "com.manneia",
   "version": "1.0",
   "author": "manneia",
+  "isGit": true,
   "createTime": "2024-3-3",
   "fileConfig": {
     "inputRootPath": ".source/acm-template-pro",
