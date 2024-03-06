@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * @author lkx
+ * @author manneia
  */
 public class DynamicFileGenerator {
 

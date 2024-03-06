@@ -1,9 +1,11 @@
-package com.manneia.maker.generator;
+package com.manneia.maker.generator.main;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
 import com.manneia.maker.GitGenerator;
+import com.manneia.maker.generator.JarGenerator;
+import com.manneia.maker.generator.ScriptGenerator;
 import com.manneia.maker.generator.file.DynamicFileGenerator;
 import com.manneia.maker.generator.file.StaticFileGenerator;
 import com.manneia.maker.generator.utils.Utils;
@@ -17,25 +19,60 @@ import java.io.IOException;
 /**
  * @author lkx
  */
-public class MainGenerator {
-    public static void main(String[] args) throws TemplateException, IOException, InterruptedException {
-        System.setProperty("file.encoding", "UTF-8");
+public class GenerateTemplate {
 
+    public void doGenerate() throws TemplateException, IOException, InterruptedException {
         Meta meta = MetaManager.getMetaObject();
-        System.out.println(meta);
         // 输出的根路径
         String projectPath = Utils.getRootProperty();
+        System.out.println(projectPath);
         String outputPath = projectPath + File.separator + "generated" +
                 File.separator + meta.getName();
         if (FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
 
+        // 1. 复制原始文件
+        String sourceCopyDestPath = copySource(meta, outputPath);
+
+        // 2. 代码生成
+        generateCode(meta, outputPath);
+
+        // 3. 构建jar包
+        String jarPath = buildJar(outputPath, meta);
+
+        // 4. 封装脚本
+        String shellOutputFilePath = buildScript(outputPath, jarPath);
+
+        // 5. 生成精简版本的程序(产物包)
+        buildDist(outputPath, shellOutputFilePath, sourceCopyDestPath, jarPath);
+    }
+
+    /**
+     * 复制原始模板文件
+     *
+     * @param meta       元信息对象
+     * @param outputPath 输出路径
+     * @return 返回原始模板文件的路径
+     */
+    protected String copySource(Meta meta, String outputPath) {
         // 从原始模板文件路径复制到生成的代码包中
         String sourceRootPath = meta.getFileConfig().getSourceRootPath();
         String sourceCopyDestPath = outputPath + File.separator + ".source";
         FileUtil.copy(sourceRootPath, sourceCopyDestPath, true);
+        return sourceCopyDestPath;
+    }
 
+    /**
+     * 代码生成
+     *
+     * @param meta       元信息对象
+     * @param outputPath 输出路径
+     * @throws IOException          IO流异常
+     * @throws TemplateException    模板异常
+     * @throws InterruptedException 线程异常
+     */
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException, InterruptedException {
         // 读取resources 目录
         ClassPathResource classPathResource = new ClassPathResource("");
         String resourceAbsolutePath = classPathResource.getAbsolutePath();
@@ -120,18 +157,46 @@ public class MainGenerator {
             outputFilePath = outputPath + File.separator + ".gitignore";
             StaticFileGenerator.copyFilesByHuTool(inputFilePath, outputFilePath);
         }
+    }
 
-        // 构建jar包
+    /**
+     * 构建jar包
+     *
+     * @param outputPath 输出路径
+     * @param meta       元信息对象
+     * @return 返回jar包路径
+     * @throws IOException          IO流异常
+     * @throws InterruptedException 线程异常
+     */
+    protected String buildJar(String outputPath, Meta meta) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
-
-        // 封装脚本
-        String shellOutputFilePath = outputPath + File.separator + "generator";
         String jarName = String.format("%s-%s-jar-with-dependencies.jar",
                 meta.getName(), meta.getVersion());
-        String jarPath = "target/" + jarName;
-        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+        return "target/" + jarName;
+    }
 
-        // 生成精简版本的程序(产物包)
+    /**
+     * 封装脚本
+     *
+     * @param outputPath 输出路径
+     * @param jarPath    jar包路径
+     * @return 返回shell脚本路径
+     */
+    protected String buildScript(String outputPath, String jarPath) {
+        String shellOutputFilePath = outputPath + File.separator + "generator";
+        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+        return shellOutputFilePath;
+    }
+
+    /**
+     * 构建dist精简版代码
+     *
+     * @param outputPath          输出路径
+     * @param sourceCopyDestPath  原始模板复制到的路径
+     * @param shellOutputFilePath shell脚本路径
+     * @param jarPath             jar包路径
+     */
+    protected void buildDist(String outputPath, String sourceCopyDestPath, String shellOutputFilePath, String jarPath) {
         String distOutputPath = outputPath + "-dist";
         // 拷贝jar包,
         String targetAbsolutePath = distOutputPath + File.separator + "target";

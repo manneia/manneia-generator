@@ -26,8 +26,7 @@ public class MetaManager {
         String meatJson = ResourceUtil.readUtf8Str("meta.json");
         Meta meta = JSONUtil.toBean(meatJson, Meta.class);
         // todo 校验配置参数是否合法, 处理默认值
-        Meta.FileConfig fileConfig = meta.getFileConfig();
-        Meta.ModelConfig modelConfig = meta.getModelConfig();
+        MetaValidator.doValidateAndFillDefaultValue(meta);
         return meta;
     }
 

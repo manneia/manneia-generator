@@ -10,19 +10,17 @@ import picocli.CommandLine.Command;
 import java.util.concurrent.Callable;
 
 /**
- * @author lkx
+ * @author ${author}
  */
 @Command(name = "generate", description = "生成代码", mixinStandardHelpOptions = true)
 @Data
 public class GenerateCommand implements Callable<Integer> {
 
     <#list modelConfig.models as modelInfo>
-    /**
-     * ${modelInfo.description}
-     */
-    @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}",</#if>"--${modelInfo.fieldName}" }, arity = "0..1", <#if modelInfo.description??>description = "${modelInfo.description}",</#if>
+
+        @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}", </#if>"--${modelInfo.fieldName}"}, arity = "0..1", <#if modelInfo.description??>description = "${modelInfo.description}", </#if>
             interactive = true, echo = true)
-    private ${modelInfo.type} ${modelInfo.fieldName} <#if modelInfo.defaultValue??>= <#if modelInfo.type=="String">"${modelInfo.defaultValue?c}"<#else>${modelInfo.defaultValue?c}</#if></#if>;
+        private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = ${modelInfo.defaultValue?c}</#if>;
     </#list>
 
     @Override

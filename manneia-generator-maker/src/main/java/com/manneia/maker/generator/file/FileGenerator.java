@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @author lkx
+ * @author manneia
  */
 public class FileGenerator {
 

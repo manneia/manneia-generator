@@ -4,7 +4,7 @@
   "basePackage": "com.manneia",
   "version": "1.0",
   "author": "manneia",
-  "isGit": true,
+  "isGit": false,
   "createTime": "2024-3-3",
   "fileConfig": {
     "inputRootPath": ".source/acm-template-pro",
@@ -44,7 +44,7 @@
       {
         "fieldName": "author",
         "type": "String",
-        "description": "作者注释",
+        "description": "作者",
         "defaultValue": "manneia",
         "abbr": "a"
       },
