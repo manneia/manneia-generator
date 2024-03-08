@@ -3,11 +3,9 @@ package com.manneia.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
-import com.manneia.maker.GitGenerator;
 import com.manneia.maker.generator.JarGenerator;
 import com.manneia.maker.generator.ScriptGenerator;
 import com.manneia.maker.generator.file.DynamicFileGenerator;
-import com.manneia.maker.generator.file.StaticFileGenerator;
 import com.manneia.maker.generator.utils.Utils;
 import com.manneia.maker.meta.Meta;
 import com.manneia.maker.meta.MetaManager;
@@ -15,6 +13,7 @@ import freemarker.template.TemplateException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author lkx
@@ -25,7 +24,6 @@ public class GenerateTemplate {
         Meta meta = MetaManager.getMetaObject();
         // 输出的根路径
         String projectPath = Utils.getRootProperty();
-        System.out.println(projectPath);
         String outputPath = projectPath + File.separator + "generated" +
                 File.separator + meta.getName();
         if (FileUtil.exist(outputPath)) {
@@ -150,13 +148,6 @@ public class GenerateTemplate {
         inputFilePath = resourceAbsolutePath + File.separator + "templates/README.md.ftl";
         outputFilePath = outputPath + File.separator + "README.md";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
-
-        if (meta.getIsGit()) {
-            GitGenerator.doGenerate(outputPath);
-            inputFilePath = resourceAbsolutePath + File.separator + "templates/.gitignore.ftl";
-            outputFilePath = outputPath + File.separator + ".gitignore";
-            StaticFileGenerator.copyFilesByHuTool(inputFilePath, outputFilePath);
-        }
     }
 
     /**

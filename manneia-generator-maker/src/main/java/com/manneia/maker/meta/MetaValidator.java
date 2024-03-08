@@ -3,7 +3,6 @@ package com.manneia.maker.meta;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.manneia.maker.meta.enums.FileGenerateTypeEnum;
 import com.manneia.maker.meta.enums.FileTypeEnum;
@@ -11,6 +10,7 @@ import com.manneia.maker.meta.enums.ModelTypeEnum;
 
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 元信息校验
@@ -47,14 +47,8 @@ public class MetaValidator {
         String version = StrUtil.emptyToDefault(meta.getVersion(), "1.0");
         // 项目作者
         String author = StrUtil.emptyToDefault(meta.getAuthor(), "manneia");
-        // 是否使用Git托管
-        Boolean isGit = meta.getIsGit();
         // 项目创建时间
         String createTime = StrUtil.emptyToDefault(meta.getCreateTime(), DateUtil.now());
-        if (BooleanUtil.isBoolean(isGit.getClass())) {
-            isGit = true;
-            meta.setIsGit(isGit);
-        }
 
         meta.setName(name);
         meta.setDescription(description);
@@ -64,6 +58,11 @@ public class MetaValidator {
         meta.setCreateTime(createTime);
     }
 
+    /**
+     * 文件配置信息校验和默认值
+     *
+     * @param meta 元信息
+     */
     private static void validAndFillMetaFileConfig(Meta meta) {
         // fileConfig 校验和默认值
         Meta.FileConfig fileConfig = meta.getFileConfig();
@@ -109,9 +108,14 @@ public class MetaValidator {
             // 如果文件结尾不为 .ftl，默认为static，否则为 dynamic
             String generateType = fileInfo.getGenerateType();
 
+            if (FileTypeEnum.GROUP.getValue().equals(type)) {
+                return;
+            }
+            // inputPath 必填
             if (StrUtil.isBlank(inputPath)) {
                 throw new MetaException("未填写 inputPath");
             }
+            // outputPath 默认等于 inputPath
             String defaultOutputPath = StrUtil.emptyToDefault(outputPath, inputPath);
             fileInfo.setOutputPath(defaultOutputPath);
             // 无文件后缀则默认为 dir,否则为 file
@@ -129,6 +133,11 @@ public class MetaValidator {
         });
     }
 
+    /**
+     * 模板配置信息校验和默认值
+     *
+     * @param meta 元信息
+     */
     private static void validAndFillMetaModelConfig(Meta meta) {
         // modelConfig 校验和默认值
         Meta.ModelConfig modelConfig = meta.getModelConfig();
@@ -139,9 +148,21 @@ public class MetaValidator {
         if (CollUtil.isEmpty(modelInfoList)) {
             return;
         }
-        modelInfoList.forEach(modelInfo -> {
+        for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
             String fieldName = modelInfo.getFieldName();
             String type = modelInfo.getType();
+            String groupKey = modelInfo.getGroupKey();
+            // 为group 不校验
+            if (StrUtil.isNotEmpty(groupKey)) {
+                // 生成中间参数
+                List<Meta.ModelConfig.ModelInfo> subModelInfoList = modelInfo.getModels();
+                String allArgsStr = subModelInfoList.stream().map(subModelInfo -> {
+                    return String.format("\"--%s\"", subModelInfo.getFieldName());
+                }).collect(Collectors.joining(", "));
+                modelInfo.setAllArgsStr(allArgsStr);
+                continue;
+            }
+
             if (StrUtil.isBlank(fieldName)) {
                 throw new MetaException("未填写 filedName");
             }
@@ -149,7 +170,7 @@ public class MetaValidator {
             if (StrUtil.isBlankIfStr(type)) {
                 modelInfo.setType(ModelTypeEnum.MODEL_STRING.getValue());
             }
-        });
+        }
 
     }
 }
