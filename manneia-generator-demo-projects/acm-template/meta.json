@@ -1,0 +1,25 @@
+{
+    "name": "acm-template-generator",
+    "description": "Acm 示例模板生成器",
+    "fileConfig": {
+        "sourceRootPath": "D:/Project/project/manneia-generator/manneia-generator-demo-projects/acm-template",
+        "files": [
+            {
+                "inputPath": "src/com/manneia/acm/MainTemplate.java",
+                "outputPath": "src/com/manneia/acm/MainTemplate.java.ftl",
+                "type": "file",
+                "generateType": "dynamic"
+            }
+        ]
+    },
+    "modelConfig": {
+        "models": [
+            {
+                "fieldName": "outputText",
+                "type": "String",
+                "description": "输出信息",
+                "defaultValue": "sum= "
+            }
+        ]
+    }
+}

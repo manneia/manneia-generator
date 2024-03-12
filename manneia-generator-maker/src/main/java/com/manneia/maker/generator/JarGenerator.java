@@ -1,6 +1,6 @@
 package com.manneia.maker.generator;
 
-import com.manneia.maker.generator.utils.Utils;
+import com.manneia.maker.utils.Utils;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package com.manneia.maker.generator.utils;
+package com.manneia.maker.utils;
 
 import cn.hutool.core.util.StrUtil;
 

@@ -1,7 +1,6 @@
 package com.manneia.maker.generator.file;
 
-import com.manneia.maker.model.DataModel;
-import com.manneia.maker.generator.utils.Utils;
+import com.manneia.maker.utils.Utils;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -12,7 +11,7 @@ import java.io.IOException;
  */
 public class FileGenerator {
 
-    public static void doGenerator(DataModel config) {
+    public static void doGenerator(Object config) {
         // 1. 静态文件生成
         String projectPath = Utils.getRootProperty();
         // 输入路径
@@ -22,12 +21,8 @@ public class FileGenerator {
         // 2. 动态文件生成
         String dynamicInputPath = projectPath + File.separator + "manneia-generator-maker" + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
         String dynamicOutputPath = projectPath + File.separator + "acm-template/src/com/manneia/acm/MainTemplate.java";
-        DataModel templateConfig = new DataModel();
-        templateConfig.setAuthor(config.getAuthor());
-        templateConfig.setOutputText(config.getOutputText());
-        templateConfig.setLoop(config.getLoop());
         try {
-            DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, templateConfig);
+            DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, config);
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);
         }

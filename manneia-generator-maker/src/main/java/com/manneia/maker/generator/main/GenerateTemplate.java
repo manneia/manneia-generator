@@ -6,14 +6,13 @@ import cn.hutool.core.util.StrUtil;
 import com.manneia.maker.generator.JarGenerator;
 import com.manneia.maker.generator.ScriptGenerator;
 import com.manneia.maker.generator.file.DynamicFileGenerator;
-import com.manneia.maker.generator.utils.Utils;
+import com.manneia.maker.utils.Utils;
 import com.manneia.maker.meta.Meta;
 import com.manneia.maker.meta.MetaManager;
 import freemarker.template.TemplateException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author lkx
