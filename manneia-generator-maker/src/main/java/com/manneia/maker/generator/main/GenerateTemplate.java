@@ -144,9 +144,9 @@ public class GenerateTemplate {
         outputFilePath = outputPath + File.separator + "pom.xml";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
-        inputFilePath = resourceAbsolutePath + File.separator + "templates/README.md.ftl";
-        outputFilePath = outputPath + File.separator + "README.md";
-        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+//        inputFilePath = resourceAbsolutePath + File.separator + "templates/README.md.ftl";
+//        outputFilePath = outputPath + File.separator + "README.md";
+//        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
     }
 
     /**

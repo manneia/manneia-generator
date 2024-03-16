@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "name": "acm-template-pro-generator",
+    "description" : "Acm 示例模板生成器"
+  },
+  "originProjectPath": "../../../manneia-generator-demo-projects/springboot-init"
+}

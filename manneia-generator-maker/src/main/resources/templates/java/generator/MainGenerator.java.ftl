@@ -56,7 +56,7 @@ public class MainGenerator {
         <#else>
         <#if fileInfo.condition??>
         if (${fileInfo.condition}) {
-                <@generateFile indent="        " fileInfo=fileInfo />
+                <@generateFile indent="            " fileInfo=fileInfo />
         }
         <#else>
             <@generateFile fileInfo=fileInfo indent="        " />

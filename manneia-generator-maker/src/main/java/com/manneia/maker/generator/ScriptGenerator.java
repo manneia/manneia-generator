@@ -22,7 +22,7 @@ public class ScriptGenerator {
         // Linux 脚本
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("#!/bin/bash").append("\n");
-        stringBuilder.append(String.format("java -jar %s \"$@\"", jarPath)).append("\n");
+        stringBuilder.append(String.format("java -jar -Dfile.encoding=utf-8 %s \"$@\"", jarPath)).append("\n");
         FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath);
         // 添加可执行权限
         try {

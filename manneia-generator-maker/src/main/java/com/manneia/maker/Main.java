@@ -2,6 +2,10 @@ package com.manneia.maker;
 
 //import com.manneia.maker.cli.CommandExecutor;
 
+import com.manneia.maker.generator.main.MainGenerator;
+
+import java.util.Map;
+
 /**
  * @author lkx
  */
@@ -12,6 +16,5 @@ public class Main {
         //        args = new String[]{"list"};
 //        CommandExecutor commandExecutor = new CommandExecutor();
 //        commandExecutor.doExecute(args);
-
     }
 }
