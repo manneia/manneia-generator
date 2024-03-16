@@ -1,7 +1,7 @@
 package com.manneia.generateweb.mapper;
 
-import com.manneia.generateweb.model.entity.Generator;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.manneia.generateweb.model.entity.Generator;
 
 /**
 * @author lkx

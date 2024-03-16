@@ -2,18 +2,14 @@ package com.manneia.generateweb.model.vo;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.manneia.generateweb.meta.Meta;
 import com.manneia.generateweb.model.entity.Generator;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 代码生成器视图

@@ -1,20 +1,16 @@
 package com.manneia.generateweb.controller;
 
 import cn.hutool.core.io.FileUtil;
-import com.manneia.generateweb.exception.BusinessException;
 import com.manneia.generateweb.common.BaseResponse;
 import com.manneia.generateweb.common.ErrorCode;
 import com.manneia.generateweb.common.ResultUtils;
 import com.manneia.generateweb.constant.FileConstant;
+import com.manneia.generateweb.exception.BusinessException;
 import com.manneia.generateweb.manager.CosManager;
 import com.manneia.generateweb.model.dto.file.UploadFileRequest;
 import com.manneia.generateweb.model.entity.User;
 import com.manneia.generateweb.model.enums.FileUploadBizEnum;
 import com.manneia.generateweb.service.UserService;
-import java.io.File;
-import java.util.Arrays;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Arrays;
 
 /**
  * 文件接口
