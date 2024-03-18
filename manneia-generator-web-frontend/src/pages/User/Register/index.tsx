@@ -1,19 +1,19 @@
 import Footer from '@/components/Footer';
-import { userLoginUsingPost } from '@/services/backend/userController';
+import {userLoginUsingPost, userRegisterUsingPost} from '@/services/backend/userController';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { Helmet, history, useModel } from '@umijs/max';
 import { message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import { Link } from 'umi';
 import Settings from '../../../../config/defaultSettings';
+import {Link} from "umi";
 
 /**
- * 用户登录页面
+ * 用户注册页面
  * @constructor
  */
-const UserLoginPage: React.FC = () => {
+const UserRegisterPage: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const containerClassName = useEmotionCss(() => {
@@ -28,25 +28,19 @@ const UserLoginPage: React.FC = () => {
     };
   });
 
-  const handleSubmit = async (values: API.UserLoginRequest) => {
+  const handleSubmit = async (values: API.UserRegisterRequest) => {
     try {
-      // 登录
-      const res = await userLoginUsingPost({
+      // 注册
+     await userRegisterUsingPost({
         ...values,
       });
 
-      const defaultLoginSuccessMessage = '登录成功！';
+      const defaultLoginSuccessMessage = '注册成功！';
       message.success(defaultLoginSuccessMessage);
-      // 保存已登录用户信息
-      setInitialState({
-        ...initialState,
-        currentUser: res.data,
-      });
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
+      history.push("/user/login");
       return;
     } catch (error: any) {
-      const defaultLoginFailureMessage = `登录失败，${error.message}`;
+      const defaultLoginFailureMessage = `注册失败，${error.message}`;
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -55,7 +49,7 @@ const UserLoginPage: React.FC = () => {
     <div className={containerClassName}>
       <Helmet>
         <title>
-          {'登录'}- {Settings.title}
+          {'注册'}- {Settings.title}
         </title>
       </Helmet>
       <div
@@ -75,6 +69,11 @@ const UserLoginPage: React.FC = () => {
           initialValues={{
             autoLogin: true,
           }}
+          submitter={{
+              searchConfig:{
+                  submitText: '注册'
+              }
+          }}
           onFinish={async (values) => {
             await handleSubmit(values as API.UserLoginRequest);
           }}
@@ -86,7 +85,7 @@ const UserLoginPage: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账户密码登录',
+                label: '新用户注册',
               },
             ]}
           />
@@ -130,6 +129,25 @@ const UserLoginPage: React.FC = () => {
                   },
                 ]}
               />
+                <ProFormText.Password
+                    name="checkPassword"
+                    fieldProps={{
+                        size: 'large',
+                        prefix: (
+                            <LockOutlined
+                                onPointerEnterCapture={undefined}
+                                onPointerLeaveCapture={undefined}
+                            />
+                        ),
+                    }}
+                    placeholder={'请再次输入密码'}
+                    rules={[
+                        {
+                            required: true,
+                            message: '确认密码是必填项！',
+                        },
+                    ]}
+                />
             </>
           )}
 
@@ -139,7 +157,7 @@ const UserLoginPage: React.FC = () => {
               textAlign: 'right',
             }}
           >
-            <Link to="/user/register">新用户注册</Link>
+            <Link to="/user/Login">老用户登录</Link>
           </div>
         </LoginForm>
       </div>
@@ -147,4 +165,4 @@ const UserLoginPage: React.FC = () => {
     </div>
   );
 };
-export default UserLoginPage;
+export default UserRegisterPage;

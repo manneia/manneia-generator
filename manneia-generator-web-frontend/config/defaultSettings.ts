@@ -9,13 +9,13 @@ const Settings: ProLayoutProps & {
 } = {
   navTheme: 'light',
   // 拂晓蓝
-  colorPrimary: '#1890ff',
-  layout: 'mix',
-  contentWidth: 'Fluid',
+  colorPrimary: '#2f54EB',
+  layout: 'top',
+  contentWidth: 'Fixed',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '鱼皮前端万用模板',
+  title: '代码生成',
   pwa: true,
   iconfontUrl: '',
   token: {

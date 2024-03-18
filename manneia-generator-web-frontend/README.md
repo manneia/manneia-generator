@@ -1,4 +1,4 @@
-# 鱼皮前端万用模板
+# 代码生成
 
 > 作者：[程序员鱼皮](https://github.com/liyupi)
 > 仅分享于 [编程导航知识星球](https://yupi.icu)
