@@ -9,12 +9,14 @@ import java.io.IOException;
  */
 public class MainGenerator extends GenerateTemplate{
     public static void main(String[] args) throws TemplateException, IOException, InterruptedException {
-        MainGenerator mainGenerator = new MainGenerator();
-        mainGenerator.doGenerate();
+//        GenerateTemplate generateTemplate = new MainGenerator();
+        GenerateTemplate generateTemplate = new ZipGenerator();
+        generateTemplate.doGenerate();
     }
 
     @Override
-    protected void buildDist(String outputPath, String sourceCopyDestPath, String shellOutputFilePath, String jarPath) {
+    protected String buildDist(String outputPath, String sourceCopyDestPath, String shellOutputFilePath, String jarPath) {
         System.out.println("不需要了");
+        return "";
     }
 }

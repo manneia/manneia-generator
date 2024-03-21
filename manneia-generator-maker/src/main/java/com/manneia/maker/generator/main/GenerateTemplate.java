@@ -3,12 +3,13 @@ package com.manneia.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.manneia.maker.generator.JarGenerator;
 import com.manneia.maker.generator.ScriptGenerator;
 import com.manneia.maker.generator.file.DynamicFileGenerator;
-import com.manneia.maker.utils.Utils;
 import com.manneia.maker.meta.Meta;
 import com.manneia.maker.meta.MetaManager;
+import com.manneia.maker.utils.Utils;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class GenerateTemplate {
         String shellOutputFilePath = buildScript(outputPath, jarPath);
 
         // 5. 生成精简版本的程序(产物包)
-        buildDist(outputPath, shellOutputFilePath, sourceCopyDestPath, jarPath);
+        buildDist(outputPath, sourceCopyDestPath, shellOutputFilePath, jarPath);
     }
 
     /**
@@ -186,7 +187,7 @@ public class GenerateTemplate {
      * @param shellOutputFilePath shell脚本路径
      * @param jarPath             jar包路径
      */
-    protected void buildDist(String outputPath, String sourceCopyDestPath, String shellOutputFilePath, String jarPath) {
+    protected String buildDist(String outputPath, String sourceCopyDestPath, String shellOutputFilePath, String jarPath) {
         String distOutputPath = outputPath + "-dist";
         // 拷贝jar包,
         String targetAbsolutePath = distOutputPath + File.separator + "target";
@@ -198,5 +199,18 @@ public class GenerateTemplate {
         FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
         // 拷贝原始模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+        return distOutputPath;
+    }
+
+    /**
+     * 构建压缩包
+     *
+     * @param outputPath 输出路径
+     * @return 返回压缩包路径
+     */
+    protected String buildZip(String outputPath) {
+        String zipPath = outputPath + ".zip";
+        ZipUtil.zip(outputPath, zipPath);
+        return zipPath;
     }
 }

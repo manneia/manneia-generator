@@ -1,27 +1,30 @@
 package com.manneia.generateweb.controller;
 
 import cn.hutool.core.io.FileUtil;
+import com.manneia.generateweb.annotation.AuthCheck;
 import com.manneia.generateweb.common.BaseResponse;
 import com.manneia.generateweb.common.ErrorCode;
 import com.manneia.generateweb.common.ResultUtils;
-import com.manneia.generateweb.constant.FileConstant;
+import com.manneia.generateweb.constant.UserConstant;
 import com.manneia.generateweb.exception.BusinessException;
 import com.manneia.generateweb.manager.CosManager;
 import com.manneia.generateweb.model.dto.file.UploadFileRequest;
 import com.manneia.generateweb.model.entity.User;
 import com.manneia.generateweb.model.enums.FileUploadBizEnum;
 import com.manneia.generateweb.service.UserService;
+import com.qcloud.cos.model.COSObject;
+import com.qcloud.cos.model.COSObjectInputStream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.poi.util.IOUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -44,10 +47,10 @@ public class FileController {
     /**
      * 文件上传
      *
-     * @param multipartFile
-     * @param uploadFileRequest
-     * @param request
-     * @return
+     * @param multipartFile 文件
+     * @param uploadFileRequest 上传文件请求
+     * @param request 请求
+     * @return 返回上传文件的的可访问地址
      */
     @PostMapping("/upload")
     public BaseResponse<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,
@@ -70,7 +73,7 @@ public class FileController {
             multipartFile.transferTo(file);
             cosManager.putObject(filepath, file);
             // 返回可访问地址
-            return ResultUtils.success(FileConstant.COS_HOST + filepath);
+            return ResultUtils.success(filepath);
         } catch (Exception e) {
             log.error("file upload error, filepath = " + filepath, e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
@@ -86,9 +89,43 @@ public class FileController {
     }
 
     /**
+     * 测试文件下载
+     *
+     * @param filePath 文件路径
+     * @param response 响应信息
+     * @throws IOException IO异常
+     */
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    @GetMapping("/test/download")
+    public void testDownloadFile(
+            String filePath,
+            HttpServletResponse response) throws IOException {
+        COSObjectInputStream cosObjectInput = null;
+        try {
+            COSObject cosObject = cosManager.getObject(filePath);
+            cosObjectInput = cosObject.getObjectContent();
+            // 处理下载到的流
+            byte[] bytes = IOUtils.toByteArray(cosObjectInput);
+            // 设置响应头
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            response.setHeader("Content-Disposition", "attachment; filename=" + filePath);
+            // 写入响应
+            response.getOutputStream().write(bytes);
+            response.getOutputStream().flush();
+        } catch (Exception e) {
+            log.error("file download error, filepath = " + filePath, e);
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "下载失败");
+        } finally {
+            if (cosObjectInput != null) {
+                cosObjectInput.close();
+            }
+        }
+    }
+
+    /**
      * 校验文件
      *
-     * @param multipartFile
+     * @param multipartFile 文件
      * @param fileUploadBizEnum 业务类型
      */
     private void validFile(MultipartFile multipartFile, FileUploadBizEnum fileUploadBizEnum) {
@@ -96,9 +133,9 @@ public class FileController {
         long fileSize = multipartFile.getSize();
         // 文件后缀
         String fileSuffix = FileUtil.getSuffix(multipartFile.getOriginalFilename());
-        final long ONE_M = 1024 * 1024L;
+        final long oneM = 1024 * 1024L;
         if (FileUploadBizEnum.USER_AVATAR.equals(fileUploadBizEnum)) {
-            if (fileSize > ONE_M) {
+            if (fileSize > oneM) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "文件大小不能超过 1M");
             }
             if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp").contains(fileSuffix)) {

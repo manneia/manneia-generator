@@ -9,11 +9,38 @@ export default [
       },
       {
         path: '/user/register',
-        component: './User/Register'
-      }
+        component: './User/Register',
+      },
     ],
   },
   { path: '/', icon: 'home', component: './Index', name: '主页' },
+  {
+    path: '/generator/detail/:id',
+    icon: 'home',
+    component: './Generator/Detail',
+    name: '生成器详情',
+    hideInMenu: true,
+  },
+  {
+    path: '/generator/add',
+    icon: 'home',
+    component: './Generator/Add',
+    name: '创建生成器',
+  },
+  {
+    path: '/generator/update',
+    icon: 'home',
+    component: './Generator/Add',
+    name: '创建生成器',
+    hideInMenu: true,
+  },
+  {
+    path: '/test/file',
+    icon: 'upload',
+    component: './Test/File',
+    name: '文件上传下载测试',
+    hideInMenu: false,
+  },
   {
     path: '/admin',
     icon: 'crown',
@@ -22,7 +49,12 @@ export default [
     routes: [
       { path: '/admin', redirect: '/admin/user' },
       { icon: 'table', path: '/admin/user', component: './Admin/User', name: '用户管理' },
-      { icon: 'tools', path: '/admin/generator', component: './Admin/Generator', name: '生成器管理' }
+      {
+        icon: 'tools',
+        path: '/admin/generator',
+        component: './Admin/Generator',
+        name: '生成器管理',
+      },
     ],
   },
   { path: '/', redirect: '/welcome' },

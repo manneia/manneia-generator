@@ -3,7 +3,9 @@ import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Alert, Card, Typography } from 'antd';
 import React from 'react';
+
 const Admin: React.FC = () => {
+  // @ts-ignore
   return (
     <PageContainer content={' 这个页面只有 admin 权限才能查看'}>
       <Card>
@@ -23,6 +25,7 @@ const Admin: React.FC = () => {
             textAlign: 'center',
           }}
         >
+          {/*@ts-ignore*/}
           <SmileTwoTone /> Ant Design Pro <HeartTwoTone twoToneColor="#eb2f96" /> You
         </Typography.Title>
       </Card>

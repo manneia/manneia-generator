@@ -37,12 +37,15 @@ export const requestConfig: RequestConfig = {
 
       // 响应
       const { data } = response as unknown as ResponseStructure;
+      if (requestPath.includes('download')) {
+        return response;
+      }
       if (!data) {
         throw new Error('服务异常');
       }
-
       // 错误码处理
-      const code: number = data.code;
+      const code: number = data.code; // 文件下载时，直接返回
+
       // 未登录，且不为获取用户登录信息接口
       if (
         code === 40100 &&
