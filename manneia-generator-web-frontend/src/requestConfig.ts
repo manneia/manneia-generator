@@ -37,7 +37,8 @@ export const requestConfig: RequestConfig = {
 
       // 响应
       const { data } = response as unknown as ResponseStructure;
-      if (requestPath.includes('download')) {
+
+      if (response.data instanceof Blob) {
         return response;
       }
       if (!data) {

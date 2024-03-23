@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Data
 public class GeneratorEditRequest implements Serializable {
+
     /**
      * id
      */
@@ -45,7 +46,7 @@ public class GeneratorEditRequest implements Serializable {
     private String author;
 
     /**
-     * 标签列表(json 数组)
+     * 标签列表（json 数组）
      */
     private List<String> tags;
 
@@ -55,19 +56,17 @@ public class GeneratorEditRequest implements Serializable {
     private String picture;
 
     /**
-     * 文件配置(json 字符串)
+     * 文件配置（json字符串）
      */
     private Meta.FileConfig fileConfig;
 
     /**
-     * 模型配置(json 字符串)
+     * 模型配置（json字符串）
      */
     private Meta.ModelConfig modelConfig;
 
     /**
      * 代码生成器产物路径
      */
-    private String distPath;
-
     private static final long serialVersionUID = 1L;
 }

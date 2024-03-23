@@ -1,30 +1,14 @@
-import { COS_HOST } from '@/constants';
 import AuthorInfo from '@/pages/Generator/Detail/components/AuthorInfo';
 import FileConfig from '@/pages/Generator/Detail/components/FileConfig';
 import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
-import {
-  downloadGeneratorByIdUsingGet,
-  getGeneratorVoByIdUsingGet,
-} from '@/services/backend/generatorController';
+import {downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet,} from '@/services/backend/generatorController';
 import {Link, useModel, useParams} from '@@/exports';
-import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-components';
-import {
-  Button,
-  Card,
-  Col,
-  Image,
-  message,
-  Row,
-  Space,
-  Tabs,
-  TabsProps,
-  Tag,
-  Typography,
-} from 'antd';
-import { saveAs } from 'file-saver';
+import {DownloadOutlined, EditOutlined} from '@ant-design/icons';
+import {PageContainer} from '@ant-design/pro-components';
+import {Button, Card, Col, Image, message, Row, Space, Tabs, TabsProps, Tag, Typography,} from 'antd';
+import {saveAs} from 'file-saver';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 /**
  * 生成器创建页面
@@ -135,7 +119,9 @@ const GeneratorDetailPage: React.FC = () => {
             <Typography.Paragraph type="secondary">作者: {data.author}</Typography.Paragraph>
             <div style={{ marginBottom: 24 }} />
             <Space size="middle">
-              <Button type="primary">立即使用</Button>
+              <Link to={`/generator/use/${data.id}`}>
+                <Button type="primary">立即使用</Button>
+              </Link>
               {downloadButton}
               {editButton}
             </Space>

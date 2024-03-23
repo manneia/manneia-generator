@@ -130,7 +130,6 @@ declare namespace API {
     author?: string;
     basePackage?: string;
     description?: string;
-    distPath?: string;
     fileConfig?: FileConfig;
     id?: number;
     modelConfig?: ModelConfig;
@@ -178,6 +177,11 @@ declare namespace API {
     updateTime?: string;
     userId?: number;
     version?: string;
+  };
+
+  type GeneratorUseRequest = {
+    dataModel?: Record<string, any>;
+    id?: number;
   };
 
   type GeneratorVo = {
@@ -299,8 +303,8 @@ declare namespace API {
   };
 
   type testDownloadFileUsingGETParams = {
-    /** filepath */
-    filepath?: string;
+    /** filePath */
+    filePath?: string;
   };
 
   type uploadFileUsingPOSTParams = {

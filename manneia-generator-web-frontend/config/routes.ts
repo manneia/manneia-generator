@@ -28,6 +28,13 @@ export default [
     name: '创建生成器',
   },
   {
+    path: '/generator/use/:id',
+    icon: 'home',
+    component: './Generator/Use',
+    name: '使用生成器',
+    hideInMenu: true,
+  },
+  {
     path: '/generator/update',
     icon: 'home',
     component: './Generator/Add',

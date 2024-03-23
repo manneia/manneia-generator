@@ -5,6 +5,7 @@
   "version": "1.0",
   "author": "manneia",
   "createTime": "2024-3-3",
+  "originProjectPath": "../../../manneia-generator-demo-projects/acm-template-pro",
   "fileConfig": {
     "inputRootPath": ".source/acm-template-pro",
     "sourceRootPath": "D:/Project/project/manneia-generator/manneia-generator-demo-projects/acm-template-pro",
