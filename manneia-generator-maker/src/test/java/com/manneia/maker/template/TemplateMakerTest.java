@@ -45,7 +45,6 @@ public class TemplateMakerTest {
         TemplateMakerOutputConfig templateMakerOutputConfig =
                 new TemplateMakerOutputConfig();
         long projectId = TemplateMaker.makeTemplate(meta,
-                projectPath,
                 originProjectPath,
                 templateMakerFileConfig,
                 templateMakerModelConfig,

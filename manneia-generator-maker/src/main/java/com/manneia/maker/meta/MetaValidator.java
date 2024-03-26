@@ -152,13 +152,15 @@ public class MetaValidator {
             String fieldName = modelInfo.getFieldName();
             String type = modelInfo.getType();
             String groupKey = modelInfo.getGroupKey();
+            String description = modelInfo.getDescription();
+            StrUtil.emptyToDefault(description, "请输入" + fieldName);
             // 为group 不校验
             if (StrUtil.isNotEmpty(groupKey)) {
                 // 生成中间参数
                 List<Meta.ModelConfig.ModelInfo> subModelInfoList = modelInfo.getModels();
-                String allArgsStr = subModelInfoList.stream().map(subModelInfo -> {
-                    return String.format("\"--%s\"", subModelInfo.getFieldName());
-                }).collect(Collectors.joining(", "));
+                String allArgsStr = subModelInfoList.stream().map(subModelInfo ->
+                                String.format("\"--%s\"", subModelInfo.getFieldName()))
+                        .collect(Collectors.joining(", "));
                 modelInfo.setAllArgsStr(allArgsStr);
                 continue;
             }

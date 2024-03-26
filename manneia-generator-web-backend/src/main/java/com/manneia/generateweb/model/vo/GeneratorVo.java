@@ -3,7 +3,7 @@ package com.manneia.generateweb.model.vo;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.manneia.generateweb.meta.Meta;
+import com.manneia.maker.meta.Meta;
 import com.manneia.generateweb.model.entity.Generator;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

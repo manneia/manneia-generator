@@ -1,6 +1,6 @@
 package com.manneia.generateweb.model.dto.Generator;
 
-import com.manneia.generateweb.meta.Meta;
+import com.manneia.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -68,5 +68,7 @@ public class GeneratorEditRequest implements Serializable {
     /**
      * 代码生成器产物路径
      */
+    private String distPath;
+    
     private static final long serialVersionUID = 1L;
 }

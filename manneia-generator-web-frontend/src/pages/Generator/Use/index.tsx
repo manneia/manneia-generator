@@ -15,7 +15,6 @@ import {
   Input,
   message,
   Row,
-  Select,
   Space,
   Tag,
   Typography,
@@ -136,18 +135,7 @@ const GeneratorUsePage: React.FC = () => {
                                 // @ts-ignore
                                 name={[model.groupKey, subModel.fieldName]}
                               >
-                                {subModel.type === 'Boolean' ? (
-                                  <Select
-                                    defaultValue="true"
-                                    style={{ width: 120 }}
-                                    options={[
-                                      { value: 'true', label: 'true' },
-                                      { value: 'false', label: 'false' },
-                                    ]}
-                                  />
-                                ) : (
                                   <Input placeholder={subModel.description} />
-                                )}
                               </Form.Item>
                             );
                           }),
@@ -162,18 +150,7 @@ const GeneratorUsePage: React.FC = () => {
                 return (
                   // eslint-disable-next-line react/jsx-key
                   <Form.Item label={model.fieldName} name={model.fieldName}>
-                    {model.type === 'Boolean' ? (
-                      <Select
-                        defaultValue="true"
-                        style={{ width: 120 }}
-                        options={[
-                          { value: 'true', label: 'true' },
-                          { value: 'false', label: 'false' },
-                        ]}
-                      />
-                    ) : (
-                      <Input placeholder={model.description} />
-                    )}
+                    <Input placeholder={model.description} />
                   </Form.Item>
                 );
               })}

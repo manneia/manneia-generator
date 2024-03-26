@@ -10,11 +10,11 @@ import picocli.CommandLine.Command;
 
 import java.util.concurrent.Callable;
 
+<#--, <#if modelInfo.description??>description = "${modelInfo.description}", </#if>-->
 <#--生成选项-->
 <#macro generateOption indent modelInfo>
-${indent}@Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}",</#if>"--${modelInfo.fieldName}"}, arity = "0..1", <#if modelInfo.description??>description = "${modelInfo.description}", </#if>
-                interactive = true, echo = true)
-${indent}private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = ${modelInfo.defaultValue?c}</#if>;
+${indent}@Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}",</#if>"--${modelInfo.fieldName}"}, arity = "0..1",interactive = true, echo = true)
+${indent}private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = <#if modelInfo.type=="Boolean">true<#else>${modelInfo.defaultValue?c}</#if></#if>;
 </#macro>
 
 
@@ -37,7 +37,8 @@ public class GenerateCommand implements Callable<Integer> {
      * ${modelInfo.groupName}
      */
     static DataModel.${modelInfo.type} ${modelInfo.groupKey} = new DataModel.${modelInfo.type}();
-    @Command(name = "${modelInfo.groupName}", description = "${modelInfo.description}")
+<#--    , description = "${modelInfo.description}"-->
+    @Command(name = "${modelInfo.groupName}")
     @Data
     public static class ${modelInfo.type}Command implements Runnable{
         <#list modelInfo.models as subModelInfo>

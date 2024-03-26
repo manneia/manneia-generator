@@ -1,6 +1,6 @@
 package com.manneia.generateweb.model.dto.Generator;
 
-import com.manneia.generateweb.meta.Meta;
+import com.manneia.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;

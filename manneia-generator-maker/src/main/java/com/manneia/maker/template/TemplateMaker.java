@@ -38,14 +38,12 @@ public class TemplateMaker {
     public static long makeTemplate(TemplateMakerConfig templateMakerConfig) {
         Meta meta = templateMakerConfig.getMeta();
         Long id = templateMakerConfig.getId();
-        String projectPath = templateMakerConfig.getProjectPath();
         String originProjectPath = templateMakerConfig.getOriginProjectPath();
         TemplateMakerFileConfig fileConfig = templateMakerConfig.getFileConfig();
         TemplateMakerModelConfig modelConfig = templateMakerConfig.getModelConfig();
         TemplateMakerOutputConfig templateOutputConfig = templateMakerConfig.getOutputConfig();
         return makeTemplate(
                 meta,
-                projectPath,
                 originProjectPath,
                 fileConfig,
                 modelConfig,
@@ -57,7 +55,6 @@ public class TemplateMaker {
      * 制作模板
      *
      * @param newMeta                   元信息对象
-     * @param projectPath               项目根目录
      * @param originProjectPath         原始项目路径
      * @param templateMakerFileConfig   项目模板文件配置
      * @param templateMakerModelConfig  模型配置
@@ -66,7 +63,6 @@ public class TemplateMaker {
      * @return 返回文件id
      */
     public static long makeTemplate(Meta newMeta,
-                                    String projectPath,
                                     String originProjectPath,
                                     TemplateMakerFileConfig templateMakerFileConfig,
                                     TemplateMakerModelConfig templateMakerModelConfig,
@@ -80,6 +76,7 @@ public class TemplateMaker {
         // 指定原始项目路径
 
         // 复制目录
+        String projectPath = Utils.getRootProperty();
         String tempDirPath = projectPath + File.separator + ".temp";
         String templatePath = tempDirPath + File.separator + id;
         if (!FileUtil.exist(templatePath)) {

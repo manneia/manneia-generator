@@ -6,10 +6,10 @@ import lombok.Data;
 <#macro generateModel indent modelInfo>
     <#if modelInfo.description??>
 ${indent}/**
-${indent} * ${modelInfo.description}
+<#--${indent} * ${modelInfo.description}-->
 ${indent} */
     </#if>
-${indent}public ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = ${modelInfo.defaultValue?c}</#if>;
+${indent}public ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = <#if modelInfo.type=="Boolean">true<#else>${modelInfo.defaultValue?c}</#if></#if>;
 </#macro>
 /**
  * 数据模型
@@ -27,9 +27,9 @@ public class DataModel {
      */
     public ${modelInfo.type} ${modelInfo.groupKey} = new ${modelInfo.type}();
 
-    /**
-     * ${modelInfo.description}
-     */
+<#--    /**-->
+<#--     * ${modelInfo.description}-->
+<#--     */-->
     @Data
     public static class ${modelInfo.type} {
         <#list modelInfo.models as modelInfo>

@@ -16,8 +16,6 @@ public class TemplateMakerConfig {
 
     private Meta meta = new Meta();
 
-    private String projectPath = Utils.getRootProperty();
-
     private String originProjectPath;
 
     TemplateMakerFileConfig fileConfig = new TemplateMakerFileConfig();

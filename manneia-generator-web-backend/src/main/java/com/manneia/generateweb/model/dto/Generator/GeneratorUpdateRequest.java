@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.manneia.generateweb.meta.Meta;
+import com.manneia.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
