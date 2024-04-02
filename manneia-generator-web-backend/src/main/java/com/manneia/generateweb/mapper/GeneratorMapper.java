@@ -2,6 +2,9 @@ package com.manneia.generateweb.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.manneia.generateweb.model.entity.Generator;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
 * @author lkx
@@ -10,7 +13,8 @@ import com.manneia.generateweb.model.entity.Generator;
 * @Entity com.manneia.generateweb.model.entity.Generator
 */
 public interface GeneratorMapper extends BaseMapper<Generator> {
-
+    @Select("select id,distPath from manneia_generator_db.generator where isDelete = 1")
+    List<Generator> listDeleteGenerator();
 }
 
 

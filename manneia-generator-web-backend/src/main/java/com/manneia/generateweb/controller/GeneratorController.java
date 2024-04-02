@@ -72,6 +72,7 @@ public class GeneratorController {
     @Resource
     private CacheManager cacheManager;
 
+
     // region 增删改查
 
     /**
@@ -345,21 +346,25 @@ public class GeneratorController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/list/page/vo/fast")
-    public BaseResponse<Page<GeneratorVo>> listGeneratorVoByPageFast(@RequestBody GeneratorQueryRequest generatorQueryRequest,
-                                                                     HttpServletRequest request) {
+    public BaseResponse<Page<GeneratorVo>> listGeneratorVoByPageFast(
+            @RequestBody GeneratorQueryRequest generatorQueryRequest,
+            HttpServletRequest request) {
         long current = generatorQueryRequest.getCurrent();
         long size = generatorQueryRequest.getPageSize();
+        Page<GeneratorVo> generatorVoPage;
         // 优先从缓存读取
-        String cacheKey = getPageCacheKey(generatorQueryRequest);
-        Object cacheValue = cacheManager.get(cacheKey);
+        String pageCacheKey = getPageCacheKey(generatorQueryRequest);
+        // 多级缓存
+        Object cacheValue = cacheManager.get(pageCacheKey);
         if (cacheValue != null) {
             return ResultUtils.success((Page<GeneratorVo>) cacheValue);
         }
-
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
-        queryWrapper.select("id",
+        QueryWrapper<Generator> queryWrapper = generatorService.
+                getQueryWrapper(generatorQueryRequest);
+        queryWrapper.select(
+                "id",
                 "name",
                 "description",
                 "tags",
@@ -367,12 +372,13 @@ public class GeneratorController {
                 "status",
                 "userId",
                 "createTime",
-                "updateTime"
-        );
-        Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
-        Page<GeneratorVo> generatorVoPage = generatorService.getGeneratorVoPage(generatorPage, request);
-        // 写入缓存
-        cacheManager.put(cacheKey, generatorVoPage);
+                "updateTime");
+        Page<Generator> generatorPage = generatorService.page(
+                new Page<>(current, size), queryWrapper);
+        generatorVoPage = generatorService.getGeneratorVoPage(
+                generatorPage, request);
+        // 写入多级缓存
+        cacheManager.put(pageCacheKey, generatorVoPage);
         return ResultUtils.success(generatorVoPage);
     }
 
@@ -411,22 +417,33 @@ public class GeneratorController {
         if (!FileUtil.exist(zipFilePath)) {
             FileUtil.touch(zipFilePath);
         }
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         try {
             cosManager.download(distPath, zipFilePath);
+            stopWatch.stop();
+            System.out.println("下载耗时:" + stopWatch.getTotalTimeMillis());
         } catch (InterruptedException e) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
         }
         // 解压压缩包
+        stopWatch = new StopWatch();
+        stopWatch.start();
         File unzipDistDir = ZipUtil.unzip(zipFilePath);
+        stopWatch.stop();
+        System.out.println("解压耗时:" + stopWatch.getTotalTimeMillis());
         // 将用户输入的参数写入json文件中
+        stopWatch = new StopWatch();
+        stopWatch.start();
         String dataModelFilePath = tempDirPath + "/dataModel.json";
         String jsonStr = JSONUtil.toJsonStr(dataModel);
         FileUtil.writeUtf8String(jsonStr, dataModelFilePath);
-        // 执行脚本
+        stopWatch.stop();
+        System.out.println("写入数据文件耗时:" + stopWatch.getTotalTimeMillis());        // 执行脚本
         // 找到脚本文件所在路径
         // 要注意, 如果不是windows系统,找 generator 文件而不是bat 文件
         File scriptFile = FileUtil.loopFiles(unzipDistDir, 2, null)
-                .stream().filter(file -> file.isFile() && "generator".equals(file.getName()))
+                .stream().filter(file -> file.isFile() && "generator.bat".equals(file.getName()))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
         // 添加可执行权限
@@ -445,6 +462,8 @@ public class GeneratorController {
         // 如果项目目录非空，则设置命令执行的目录
         processBuilder.directory(scriptDir);
         try {
+            stopWatch = new StopWatch();
+            stopWatch.start();
             // 启动进程
             Process process = processBuilder.start();
             // 获取进程的输出流，并读取输出信息
@@ -456,6 +475,8 @@ public class GeneratorController {
             }
             int exitCode = process.waitFor();
             System.out.println("命令执行结束,退出码:" + exitCode);
+            stopWatch.stop();
+            System.out.println("执行命令耗时:" + stopWatch.getTotalTimeMillis());
         } catch (InterruptedException e) {
             log.error(e.getMessage());
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "执行生成器脚本错误");
@@ -463,7 +484,11 @@ public class GeneratorController {
         // 压缩得到的生成结果, 返回给前端
         String generatedPath = scriptDir.getAbsolutePath() + "/generated";
         String resultPath = tempDirPath + "/result.zip";
+        stopWatch = new StopWatch();
+        stopWatch.start();
         File resultFile = ZipUtil.zip(generatedPath, resultPath);
+        stopWatch.stop();
+        System.out.println("压缩耗时:" + stopWatch.getTotalTimeMillis());
         // 下载文件
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
@@ -547,9 +572,7 @@ public class GeneratorController {
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
 
         // 7）清理工作空间的文件
-        CompletableFuture.runAsync(() -> {
-            FileUtil.del(tempDirPath);
-        });
+        CompletableFuture.runAsync(() -> FileUtil.del(tempDirPath));
     }
 
     /**
