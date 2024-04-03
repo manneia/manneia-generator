@@ -546,7 +546,6 @@ public class GeneratorController {
         // 校验和处理默认值
         MetaValidator.doValidateAndFillDefaultValue(meta);
         String outputPath = tempDirPath + "/generated/" + meta.getName();
-
         // 5）调用 maker 方法制作生成器
         GenerateTemplate generateTemplate = new ZipGenerator();
         try {

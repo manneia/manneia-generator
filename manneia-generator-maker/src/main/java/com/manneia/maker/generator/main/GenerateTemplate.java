@@ -1,7 +1,6 @@
 package com.manneia.maker.generator.main;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.manneia.maker.generator.JarGenerator;
@@ -11,8 +10,6 @@ import com.manneia.maker.meta.Meta;
 import com.manneia.maker.meta.MetaManager;
 import com.manneia.maker.utils.Utils;
 import freemarker.template.TemplateException;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,9 +78,8 @@ public class GenerateTemplate {
      * @param outputPath 输出路径
      * @throws IOException          IO流异常
      * @throws TemplateException    模板异常
-     * @throws InterruptedException 线程异常
      */
-    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException, InterruptedException {
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         // 读取resources 目录
         String resourceAbsolutePath = "";
 
