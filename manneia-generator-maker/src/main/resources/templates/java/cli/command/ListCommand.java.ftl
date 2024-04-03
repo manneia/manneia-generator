@@ -17,6 +17,8 @@ public class ListCommand implements Runnable {
         // 输入路径
         List<File> files = FileUtil.loopFiles(inputPath);
         // 遍历输出文件
-        files.forEach(System.out::println);
+        for (File file : files) {
+            System.out.println(file);
+        }
     }
 }

@@ -20,7 +20,7 @@ public class JarGenerator {
         String otherMavenCommand = "mvn clean package -DskipTests=true";
         // 注意不同操作系统，执行的命令不同，默认Windows系统
         // 创建ProcessBuilder并设置执行的命令
-        ProcessBuilder processBuilder = new ProcessBuilder(winMavenCommand.split(" "));
+        ProcessBuilder processBuilder = new ProcessBuilder(otherMavenCommand.split(" "));
         // 如果项目目录非空，则设置命令执行的目录
         if (!StrUtil.isBlank(projectDir)) {
             processBuilder.directory(new File(projectDir));
@@ -41,9 +41,5 @@ public class JarGenerator {
         } else {
             System.out.println("生成jar包成功");
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        doGenerate("D:\\Project\\project\\manneia-generator\\manneia-generator-basic");
     }
 }

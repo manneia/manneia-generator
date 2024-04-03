@@ -443,7 +443,7 @@ public class GeneratorController {
         // 找到脚本文件所在路径
         // 要注意, 如果不是windows系统,找 generator 文件而不是bat 文件
         File scriptFile = FileUtil.loopFiles(unzipDistDir, 2, null)
-                .stream().filter(file -> file.isFile() && "generator.bat".equals(file.getName()))
+                .stream().filter(file -> file.isFile() && "generator".equals(file.getName()))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
         // 添加可执行权限

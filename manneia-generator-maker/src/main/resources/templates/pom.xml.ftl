@@ -8,6 +8,7 @@
     <artifactId>${name}</artifactId>
     <version>${version}</version>
     <properties>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>
             UTF-8
         </project.build.sourceEncoding>

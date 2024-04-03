@@ -29,7 +29,7 @@ public class DynamicFileGenerator {
         // 创建模板配置对象, 参数为 FreeMarker 版本号
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
         // 获取模板文件所属包和模板名称
-        int lastSplitIndex = relativeInputPath.lastIndexOf("\\");
+        int lastSplitIndex = relativeInputPath.lastIndexOf("/");
         String basePackagePath = relativeInputPath.substring(0, lastSplitIndex);
         String templateName = relativeInputPath.substring(lastSplitIndex + 1);
 
